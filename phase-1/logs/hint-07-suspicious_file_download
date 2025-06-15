@@ -1,0 +1,25 @@
+# Hint 7: Suspicious File Download
+
+### ✅ Room
+[TryHackMe: Blue](https://tryhackme.com/room/blue)
+
+---
+
+### 🧪 What Happened
+The attacker used Metasploit to exploit MS17-010 and deliver a reverse TCP shell payload. This file was downloaded and executed on the victim machine, simulating malware delivery.
+
+---
+
+### 🧠 What Would Be Logged
+- **Sysmon Event ID 11** – File creation (payload dropped)
+- **Sysmon Event ID 1** – Process creation (payload executed)
+
+---
+
+### 📸 Screenshot
+![Payload dropped and executed](../screenshots/hint7_payload_execution.png)
+
+---
+
+### 💡 Learning Outcome
+Even legitimate tools like Metasploit simulate malicious behavior: dropping a payload and executing it remotely is a high-risk action. File creation logs can help defenders catch this early.
