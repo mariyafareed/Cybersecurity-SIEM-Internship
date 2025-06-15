@@ -1,0 +1,26 @@
+# Hint 8: Privilege Escalation Attempt
+
+### ✅ Room
+[TryHackMe: Blue](https://tryhackme.com/room/blue)
+
+---
+
+### 🧪 What Happened
+After gaining initial access, the attacker upgraded the shell to Meterpreter and obtained **NT AUTHORITY\SYSTEM** privileges, showing successful privilege escalation.
+
+---
+
+### 🧠 What Would Be Logged
+- **Windows Event ID 4672** – Special privileges assigned
+- **Sysmon** would also show SYSTEM-level process activity
+- **Optional**: Event ID 4720/4732 if user/group modified
+
+---
+
+### 📸 Screenshot
+![SYSTEM shell](../screenshots/hint8_system_shell.png)
+
+---
+
+### 💡 Learning Outcome
+Privilege escalation is a key attack stage. SYSTEM-level access gives attackers full control. Logs like 4672 and unusual privilege usage should be closely monitored.
