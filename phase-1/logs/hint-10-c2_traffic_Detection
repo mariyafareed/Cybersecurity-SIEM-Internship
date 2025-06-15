@@ -1,0 +1,57 @@
+# Hint 10: Command and Control (C2) Traffic Detection
+
+### ✅ Room
+[TryHackMe: C2 101](https://tryhackme.com/room/c2101)
+
+---
+
+### 🎯 Objective
+Understand how Command and Control (C2) infrastructure operates, and how to detect beaconing behavior, reverse shells, and persistence techniques used by attackers post-compromise.
+
+---
+
+### 🧪 Room Activities Performed
+
+- Learned about C2 tools: **PowerShell Empire**, **Cobalt Strike**, and **custom Python agents**
+- Observed how attackers use **reverse shells**, **beaconing intervals**, and **obfuscation**
+- Studied simulated C2 channels and their network patterns
+
+---
+
+### 🔬 What Was Simulated / Analyzed
+
+- Outbound communication from compromised host to C2 server (HTTP/S, DNS, or custom ports)
+- C2 agent sending beacons at fixed intervals (e.g., every 60 seconds)
+- Attackers issuing commands from C2 console to victim machine
+
+---
+
+### 🧠 What Would Be Logged (If Monitored)
+
+| Event Type             | Event ID         | Description                           |
+|------------------------|------------------|---------------------------------------|
+| Network Connection     | Sysmon ID 3      | Outbound traffic to rare port/IP      |
+| Process Creation       | Sysmon ID 1      | Agent launched from unusual path      |
+| PowerShell Logging     | Event ID 4104    | Encoded or remote commands executed   |
+| Beaconing Detection    | Flow/Net logs    | Repeated intervals of outbound traffic|
+
+---
+
+### 📸 Screenshot
+![C2 session example](../screenshots/hint10_c2_beaconing.png)
+*(Replace with your actual screenshot of the C2 101 room or beaconing)*
+
+---
+
+### 🔍 Detection Tips (SIEM)
+
+- Monitor repeated outbound connections to rare IPs
+- Look for connections on high ports (e.g., 4444, 8080)
+- Correlate **Sysmon ID 3** with known C2 infrastructure
+- Look for **PowerShell Event ID 4104** with suspicious encoded scripts
+
+---
+
+### 💡 Learning Outcome
+
+C2 channels are central to post-exploit
