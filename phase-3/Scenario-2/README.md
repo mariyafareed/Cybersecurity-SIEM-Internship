@@ -1,45 +1,55 @@
-Scenario 2: Lateral Movement via RDP Brute Force – Low-privilege user brute-forces RDP across servers using stolen credentials
-Room Used: TryHackMe – Lateral Movement
-Link: https://tryhackme.com/room/lateralmovement
+🎯 Objective
+Simulate an attacker using a low-privilege account to brute-force RDP access across internal Windows hosts, then detect this activity in logs.
 
-Objective:
-The goal of this room was to understand how attackers use stolen credentials to move laterally within a network using Remote Desktop Protocol (RDP). The scenario focused on brute-forcing RDP login attempts from one compromised host to others and identifying such behavior using Windows Event Logs and detection tools.
+🛠 What I Did
+Configured a target Windows VM with RDP enabled.
 
-What I Did:
+Loaded Hydra room materials and practiced brute-forcing techniques.
 
-Simulated an attacker with low-privilege credentials attempting RDP brute-force attacks across different Windows machines.
+Ran Hydra against the RDP service:
 
-Used tools like hydra and crackmapexec to perform login attempts on RDP service (port 3389).
+nginx
 
-Investigated RDP login success/failure events (Event ID 4624, 4625) on the victim system.
+hydra -l user -P wordlist.txt rdp://<target-ip>
+Attempted several password combinations to simulate brute-force.
 
-Monitored network activity and Windows logs for patterns such as failed login storms, unusual login hours, and login attempts from non-administrative accounts.
+Used enumeration room concepts to track and analyze login attempts and results.
 
-Detection Strategy:
+🔍 Detection Strategy
+Monitored Windows Event Logs:
 
-Used Sysmon and Windows Event Viewer to monitor:
+Event ID 4625 – multiple failed RDP login attempts.
 
-Event ID 4625: Failed login attempts
+Event ID 4624 – successful login after failed attempts.
 
-Event ID 4624: Successful login after multiple failures
+Used Sysmon to log network connections and process creations.
 
-Identified brute-force attempts by filtering logs for high-frequency 4625 events from a single IP or user account.
+Correlated log entries in ELK Stack:
 
-Used Sigma rule to detect multiple failed RDP login attempts in a short time window.
+Filtered for 4625 events by source IP and user.
 
-Verified lateral movement by observing login sessions using:
+Built Sigma rule to detect burst of failed RDP attempts:
 
+detection:
+  selection:
+    EventID: 4625
+    LogonType: 10
+  timeframe: last 5m
+  condition: count(selection) > 5
+Confirmed lateral movement via queries:
 
+quser
+whoami /all
+🧰 Tools Used
 Hydra
 
-CrackMapExec
+Sysmon + Winlogbeat
 
-Sysmon
+ELK Stack (Kibana dashboards)
 
-Event Viewer
+Sigma Rules
 
-Sigma + ELK Stack for log correlation and detection
+Windows Event Viewer
 
-Conclusion:
-This room clearly illustrated how lateral movement via RDP brute-force attacks is carried out using legitimate credentials. Detecting such activity relies on correlating logon failures, login timings, and account behavior across systems. By analyzing authentication events and writing detection rules for failed login patterns, I improved my ability to detect and respond to brute-force-based lateral movement techniques.
-
+📝 Conclusion
+By combining Hydra’s brute-force capability with the enumeration room’s principles, I accurately simulated an RDP lateral movement scenario. Detection became possible through correlation of multiple failed RDP logins (Event 4625) followed by a successful authentication (Event 4624), sourced from the same IP/account. This exercise strengthened skills in log-based anomaly detection and lateral movement identification via brute-force.
