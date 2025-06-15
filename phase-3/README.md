@@ -1,4 +1,4 @@
-🚀 Cybersecurity Internship at Srida IT Consulting & Services (OPC) Pvt Ltd
+
 
 📌 Overview  
 This repository documents my hands-on journey through **Phase 3: Advanced Threat Hunting & APT Simulation** of the Cybersecurity Internship at Srida IT Consulting & Services (OPC) Pvt Ltd, under the guidance of Rajendra Bodda.
